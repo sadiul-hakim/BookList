@@ -2,7 +2,7 @@ package com.hakimbooks.hakimbooks.service;
 
 import com.hakimbooks.hakimbooks.exception.ResourceNotFoundException;
 import com.hakimbooks.hakimbooks.model.User;
-import com.hakimbooks.hakimbooks.payload.AuthResponse;
+import com.hakimbooks.hakimbooks.pojo.AuthResponse;
 import com.hakimbooks.hakimbooks.pojo.AuthRequestData;
 import com.hakimbooks.hakimbooks.repository.UserRepository;
 import com.hakimbooks.hakimbooks.utility.JwtHelper;

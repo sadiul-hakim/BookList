@@ -23,5 +23,5 @@ public class ReadBook {
     @ManyToOne
     private Book book;
     private int readPages;
-    private Timestamp readDate;
+    private Timestamp readDate=new Timestamp(System.currentTimeMillis());
 }

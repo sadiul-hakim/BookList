@@ -9,6 +9,7 @@ import com.hakimbooks.hakimbooks.security.Role;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ public class UserService {
         User userModel = modelMapper.map(userRequest, User.class);
         userModel.setRole(Role.USER.getRole());
         userModel.setStartedAt(ZonedDateTime.now().toString());
+        userModel.setPassword(passwordEncoder.encode(userModel.getPassword()));
 
         // todo: upload image and set photo property
 
@@ -34,21 +36,21 @@ public class UserService {
         return modelMapper.map(savedUser, UserResponse.class);
     }
 
-    public UserResponse getUser(long id){
+    public UserResponse getUserById(long id){
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id : " + id));
         return modelMapper.map(user, UserResponse.class);
     }
 
-    public UserResponse getUser(String email){
+    public UserResponse getUserByName(String email){
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with email : " + email));
         return modelMapper.map(user, UserResponse.class);
     }
 
     public List<UserResponse> getUserList(int page,int userNum){
-        PageRequest pageRequest = PageRequest.of(page, userNum);
-        List<User> pageList = userRepository.findAll(pageRequest).toList();
+        PageRequest pageRequest = PageRequest.of(page,userNum, Sort.by("fullName"));
+        List<User> pageList = userRepository.findAll(pageRequest).getContent();
         return pageList.stream().map(user->modelMapper.map(user, UserResponse.class)).toList();
     }
 

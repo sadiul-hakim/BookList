@@ -6,12 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
-public class UserRequestData {
-    private String fullName="";
-    private String description="";
-    private String email="";
-    private String password="";
+public class BookRequestData {
+    private long bookNameId;
+    private int totalPages;
+    private long userId;
 }

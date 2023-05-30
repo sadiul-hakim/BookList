@@ -1,6 +1,6 @@
 package com.hakimbooks.hakimbooks.exception;
 
-import com.hakimbooks.hakimbooks.payload.ApiResponse;
+import com.hakimbooks.hakimbooks.pojo.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

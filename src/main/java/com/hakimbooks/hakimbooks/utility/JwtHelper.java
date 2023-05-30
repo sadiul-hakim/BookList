@@ -34,20 +34,20 @@ public class JwtHelper {
     public String extractUsername(String token){
         return extractClaim(token,Claims::getSubject);
     }
-    public Date extractExpiration(String token){
+    private Date extractExpiration(String token){
         return extractClaim(token,Claims::getExpiration);
     }
     private boolean isExpired(String token){
         return extractExpiration(token).before(new Date());
     }
-    private boolean isValidToken(String token, UserDetails userDetails){
+    public boolean isValidToken(String token, UserDetails userDetails){
         return extractUsername(token).equalsIgnoreCase(userDetails.getUsername()) && !isExpired(token);
     }
     public String generateToken(UserDetails userDetails){
         Map<String,Object> extraClaims=new HashMap<>();
         return generateToken(extraClaims,userDetails);
     }
-    public String generateToken(Map<String,Object> claims,UserDetails userDetails){
+    private String generateToken(Map<String,Object> claims,UserDetails userDetails){
         return Jwts.builder()
                 .setClaims(claims)
                 .signWith(getSinginKey(), SignatureAlgorithm.HS256)

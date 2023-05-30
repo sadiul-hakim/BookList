@@ -1,4 +1,4 @@
-package com.hakimbooks.hakimbooks.payload;
+package com.hakimbooks.hakimbooks.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

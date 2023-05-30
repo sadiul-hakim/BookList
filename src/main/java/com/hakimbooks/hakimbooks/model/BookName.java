@@ -16,5 +16,5 @@ public class BookName {
     @GeneratedValue
     private long id;
     private String bookName;
-    private String writeName;
+    private String writerName;
 }

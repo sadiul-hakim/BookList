@@ -5,10 +5,6 @@
 ### Task List
 
 ---
-
-(Complete Authentication)
-
-1. Authentication filter
-2. Security Config
-3. other service
-4. other Controller
+1. Book Service
+2. Book Controller
+3. Book Security Config
