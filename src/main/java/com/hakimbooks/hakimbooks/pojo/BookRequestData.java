@@ -13,4 +13,5 @@ public class BookRequestData {
     private long bookNameId;
     private int totalPages;
     private long userId;
+    private long categoryId;
 }

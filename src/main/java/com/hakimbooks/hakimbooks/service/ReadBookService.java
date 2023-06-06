@@ -99,4 +99,10 @@ public class ReadBookService {
                 readBook.getReadDate()
         )).toList();
     }
+
+    public void deleteReadBook(long id){
+        ReadBook readBook = readBookRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("ReadBook not found with id : " + id));
+        readBookRepository.delete(readBook);
+    }
 }

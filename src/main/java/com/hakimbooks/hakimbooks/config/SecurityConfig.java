@@ -27,28 +27,60 @@ public class SecurityConfig {
     private final AuthenticationInterceptor authenticationInterceptor;
     @Bean
     protected SecurityFilterChain config(HttpSecurity http) throws Exception {
-        String[] getRequestWhiteLis={
+        String[] publicGetRequestWhiteLis={
+                "/api/user/{userId}",
+                "/api/bookName/**",
+                "/api/book/**",
+                "/api/readBook/**"
+        };
+
+        String[] privateGetRequestWhiteLis={
                 "/api/user/**",
                 "/api/bookName/**",
                 "/api/book/**",
-                "/api/readBook"
+                "/api/readBook/**",
+                "/api/category/**"
         };
 
-        String[] userPostRequestWhiteLis={
-                "/api/bookName/**",
-                "/api/book/**",
-                "/api/readBook"
+        String[] publicPostRequestWhiteLis={
+                "/api/bookName/post",
+                "/api/book/post",
+                "/api/readBook/post"
         };
+
+        String[] publicDeleteRequestWhiteLis={
+                "/api/book/{bookId}",
+                "/api/readBook/{readBookId}"
+        };
+
+        String[] privateDeleteRequestWhiteLis={
+                "/api/user/{userId}",
+                "/api/book/{bookId}",
+                "/api/bookName/{nameId}",
+                "/api/readBook/{readBookId}",
+                "/api/category/**"
+        };
+
+        String[] privatePostRequestWhiteList={
+                "/api/category/**"
+        };
+
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/api/auth/**")
                                 .permitAll()
-                                .requestMatchers(HttpMethod.GET,getRequestWhiteLis)
-                                .hasAnyRole(Role.USER.name(),Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.POST,userPostRequestWhiteLis)
+                                .requestMatchers(HttpMethod.GET,publicGetRequestWhiteLis)
                                 .hasAnyRole(Role.USER.name())
-                                .requestMatchers(HttpMethod.DELETE,"/api/user/**")
+                                .requestMatchers(HttpMethod.POST,publicPostRequestWhiteLis)
+                                .hasAnyRole(Role.USER.name())
+                                .requestMatchers(HttpMethod.DELETE,publicDeleteRequestWhiteLis)
+                                .hasRole(Role.USER.name())
+                                .requestMatchers(HttpMethod.GET,privateGetRequestWhiteLis)
+                                .hasRole(Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.POST,privatePostRequestWhiteList)
+                                .hasRole(Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.DELETE,privateDeleteRequestWhiteLis)
                                 .hasRole(Role.ADMIN.name())
                                 .anyRequest()
                                 .authenticated()

@@ -32,10 +32,10 @@ public class User implements UserDetails {
     @Column(length = 100)
     private String photo="user.png";
     private String startedAt;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Book> bookList=new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<ReadBook> readBooks=new ArrayList<>();
     @Column(length = 15)
     private String role;

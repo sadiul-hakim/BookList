@@ -1,6 +1,7 @@
 package com.hakimbooks.hakimbooks.pojo;
 
 import com.hakimbooks.hakimbooks.model.BookName;
+import com.hakimbooks.hakimbooks.model.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,4 +19,5 @@ public class BookResponse {
     private String photo="";
     private List<ReadBookResponse> readBookList;
     private UserResponse user;
+    private Category category;
 }

@@ -21,8 +21,11 @@ public class Book {
     @Column(length = 100)
     private String photo="";
     private int totalPages;
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "book",cascade = CascadeType.ALL)
     private List<ReadBook> readBooks=new ArrayList<>();
     @ManyToOne
     private User user;
+    @ManyToOne
+    private Category category;
+
 }

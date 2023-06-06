@@ -1,5 +1,6 @@
 package com.hakimbooks.hakimbooks.controller;
 
+import com.hakimbooks.hakimbooks.pojo.ApiResponse;
 import com.hakimbooks.hakimbooks.pojo.ReadBookRequestData;
 import com.hakimbooks.hakimbooks.pojo.ReadBookResponse;
 import com.hakimbooks.hakimbooks.service.ReadBookService;
@@ -38,5 +39,12 @@ public class ReadBookController {
     public ResponseEntity<List<ReadBookResponse>> getReadBookOfUser(@PathVariable long userId){
         List<ReadBookResponse> readBook = readBookService.getReadBookOfUser(userId);
         return ResponseEntity.ok(readBook);
+    }
+
+    @DeleteMapping("/{readBookId}")
+    public ResponseEntity<ApiResponse> deleteReadBook(@PathVariable long readBookId){
+        readBookService.deleteReadBook(readBookId);
+        return ResponseEntity
+                .ok(new ApiResponse(String.format("ReadBook %d is deleted successfully",readBookId),true));
     }
 }

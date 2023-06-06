@@ -1,6 +1,6 @@
 package com.hakimbooks.hakimbooks.controller;
 
-import com.hakimbooks.hakimbooks.model.Book;
+import com.hakimbooks.hakimbooks.pojo.ApiResponse;
 import com.hakimbooks.hakimbooks.pojo.BookRequestData;
 import com.hakimbooks.hakimbooks.pojo.BookResponse;
 import com.hakimbooks.hakimbooks.service.BookService;
@@ -39,5 +39,12 @@ public class BookController {
     public ResponseEntity<List<BookResponse>> getAllBookOfUser(@PathVariable long userId){
         List<BookResponse> allBooksOfUser = bookService.getAllBooksOfUser(userId);
         return ResponseEntity.ok(allBooksOfUser);
+    }
+
+    @DeleteMapping("/{bookId}")
+    public ResponseEntity<ApiResponse> deleteBook(@PathVariable long bookId){
+        bookService.deleteBook(bookId);
+        return ResponseEntity
+                .ok(new ApiResponse(String.format("Book %d deleted successfully.",bookId),true));
     }
 }

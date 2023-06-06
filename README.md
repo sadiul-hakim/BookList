@@ -5,6 +5,5 @@
 ### Task List
 
 ---
-1. Book Service
-2. Book Controller
-3. Book Security Config
+1. Test api Properly
+2. Upload Image

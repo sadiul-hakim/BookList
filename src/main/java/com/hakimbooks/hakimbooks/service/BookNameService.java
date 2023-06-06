@@ -30,4 +30,10 @@ public class BookNameService {
         return bookNameRepository.findAllByWriterName(writerName)
                 .orElseThrow(()-> new ResourceNotFoundException("BookNames not found with writer name : "+writerName));
     }
+
+    public void deleteBookName(long nameId){
+        BookName bookName = bookNameRepository.findById(nameId)
+                .orElseThrow(() -> new ResourceNotFoundException("BookName not found with id : " + nameId));
+        bookNameRepository.delete(bookName);
+    }
 }

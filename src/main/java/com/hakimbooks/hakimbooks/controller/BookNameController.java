@@ -1,6 +1,7 @@
 package com.hakimbooks.hakimbooks.controller;
 
 import com.hakimbooks.hakimbooks.model.BookName;
+import com.hakimbooks.hakimbooks.pojo.ApiResponse;
 import com.hakimbooks.hakimbooks.service.BookNameService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,5 +38,12 @@ public class BookNameController {
     public ResponseEntity<List<BookName>> getALlByWriterName(@RequestParam String writerName){
         List<BookName> nameList = bookNameService.getAllByWriterName(writerName);
         return ResponseEntity.ok(nameList);
+    }
+
+    @DeleteMapping("/{nameId}")
+    public ResponseEntity<ApiResponse> deleteBookName(@PathVariable long nameId){
+        bookNameService.deleteBookName(nameId);
+        return ResponseEntity
+                .ok(new ApiResponse(String.format("BookName %d is deleted successfully.",nameId),true));
     }
 }
