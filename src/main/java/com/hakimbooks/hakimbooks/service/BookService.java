@@ -45,81 +45,29 @@ public class BookService {
         book.setTotalPages(bookRequestData.getTotalPages());
         book.setPhoto(photo);
 
-
         Book savedBook = bookRepository.save(book);
-
-        UserResponse userResponse = modelMapper.map(savedBook.getUser(), UserResponse.class);
-        List<ReadBookResponse> readBookResponsesList = mapReadBookResponse(savedBook);
-
-
-        return new BookResponse(
-                savedBook.getId(),
-                savedBook.getNameInfo(),
-                savedBook.getPhoto(),
-                readBookResponsesList,
-                userResponse,
-                savedBook.getCategory()
-        );
+        return getBookResponse(savedBook);
     }
 
     public BookResponse getBook(long bookId){
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new ResourceNotFoundException("Book not found with id : " + bookId));
-
-        UserResponse userResponse = modelMapper.map(book.getUser(), UserResponse.class);
-        List<ReadBookResponse> readBookResponsesList = mapReadBookResponse(book);
-
-        return new BookResponse(
-                book.getId(),
-                book.getNameInfo(),
-                book.getPhoto(),
-                readBookResponsesList,
-                userResponse,
-                book.getCategory()
-        );
+        return getBookResponse(book);
     }
 
     public List<BookResponse> getAllBooks(){
-        List<BookResponse> responseList=new ArrayList<>();
         List<Book> bookList = bookRepository.findAll();
-        for(Book book:bookList){
-            UserResponse userResponse = modelMapper.map(book.getUser(), UserResponse.class);
-            List<ReadBookResponse> readBookResponsesList = mapReadBookResponse(book);
-
-            responseList.add(
-                    new BookResponse(
-                            book.getId(),
-                            book.getNameInfo(),
-                            book.getPhoto(),
-                            readBookResponsesList,
-                            userResponse,
-                            book.getCategory()
-                    )
-            );
-        }
-
-        return responseList;
+        return getBookResponseList(bookList);
     }
 
     public List<BookResponse> getAllBooksOfUser(long userId){
-        List<BookResponse> responseList=new ArrayList<>();
         List<Book> bookList = bookRepository.findAllByUserId(userId);
-        for(Book book:bookList){
-            UserResponse userResponse = modelMapper.map(book.getUser(), UserResponse.class);
-            List<ReadBookResponse> readBookResponsesList = mapReadBookResponse(book);
-            responseList.add(
-                    new BookResponse(
-                            book.getId(),
-                            book.getNameInfo(),
-                            book.getPhoto(),
-                            readBookResponsesList,
-                            userResponse,
-                            book.getCategory()
-                    )
-            );
-        }
+        return getBookResponseList(bookList);
+    }
 
-        return responseList;
+    public List<BookResponse> getAllBooksOfCategory(long category){
+        List<Book> bookList = bookRepository.findAllByCategoryId(category);
+        return getBookResponseList(bookList);
     }
 
     public void deleteBook(long bookId){
@@ -135,5 +83,30 @@ public class BookService {
             readBookResponse.setBookName(book.getNameInfo());
             return readBookResponse;
         }).toList();
+    }
+
+    public List<BookResponse> getBookResponseList(List<Book> bookList){
+        List<BookResponse> responseList=new ArrayList<>();
+        for(Book book:bookList){
+
+            responseList.add(
+                    getBookResponse(book)
+            );
+        }
+        return responseList;
+    }
+
+    public BookResponse getBookResponse(Book book){
+        UserResponse userResponse = modelMapper.map(book.getUser(), UserResponse.class);
+        List<ReadBookResponse> readBookResponsesList = mapReadBookResponse(book);
+
+        return new BookResponse(
+                book.getId(),
+                book.getNameInfo(),
+                book.getPhoto(),
+                readBookResponsesList,
+                userResponse,
+                book.getCategory()
+        );
     }
 }

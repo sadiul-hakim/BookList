@@ -5,5 +5,5 @@
 ### Task List
 
 ---
-1. Test api Properly
+1. Design GUI
 2. Upload Image

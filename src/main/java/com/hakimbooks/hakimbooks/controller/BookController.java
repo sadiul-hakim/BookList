@@ -41,6 +41,12 @@ public class BookController {
         return ResponseEntity.ok(allBooksOfUser);
     }
 
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<BookResponse>> getAllBookOfCategory(@PathVariable long categoryId){
+        List<BookResponse> allBooksOfUser = bookService.getAllBooksOfCategory(categoryId);
+        return ResponseEntity.ok(allBooksOfUser);
+    }
+
     @DeleteMapping("/{bookId}")
     public ResponseEntity<ApiResponse> deleteBook(@PathVariable long bookId){
         bookService.deleteBook(bookId);

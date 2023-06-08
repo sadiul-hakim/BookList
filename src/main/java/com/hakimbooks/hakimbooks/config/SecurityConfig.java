@@ -39,7 +39,9 @@ public class SecurityConfig {
                 "/api/bookName/**",
                 "/api/book/**",
                 "/api/readBook/**",
-                "/api/category/**"
+                "/api/category/{categoryId}",
+                "/api/category/list",
+                "/api/category/category/{categoryId}"
         };
 
         String[] publicPostRequestWhiteLis={
@@ -58,11 +60,11 @@ public class SecurityConfig {
                 "/api/book/{bookId}",
                 "/api/bookName/{nameId}",
                 "/api/readBook/{readBookId}",
-                "/api/category/**"
+                "/api/category/{categoryId}"
         };
 
         String[] privatePostRequestWhiteList={
-                "/api/category/**"
+                "/api/category/post"
         };
 
         return http
