@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,7 +23,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Collections;
 import java.util.List;
 
 @Configuration
@@ -38,7 +38,9 @@ public class SecurityConfig {
                 "/api/bookName/**",
                 "/api/book/**",
                 "/api/readBook/**",
-                "/api/user/status/{userId}"
+                "/api/user/status/{userId}",
+                "/api/category/list",
+                "/api/category/{categoryId}"
         };
 
         String[] privateGetRequestWhiteLis={
@@ -97,6 +99,7 @@ public class SecurityConfig {
                 .authenticationProvider(daoAuthenticationProvider())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(authenticationInterceptor, UsernamePasswordAuthenticationFilter.class)
+                .cors(Customizer.withDefaults())
                 .build();
     }
 
