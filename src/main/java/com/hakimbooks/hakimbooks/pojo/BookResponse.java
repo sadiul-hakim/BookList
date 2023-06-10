@@ -15,6 +15,7 @@ import java.util.List;
 @ToString
 public class BookResponse {
     private long id;
+    private long totalPages;
     private BookName bookName;
     private String photo="";
     private List<ReadBookResponse> readBookList;

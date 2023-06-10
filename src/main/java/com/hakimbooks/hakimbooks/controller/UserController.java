@@ -2,6 +2,7 @@ package com.hakimbooks.hakimbooks.controller;
 
 import com.hakimbooks.hakimbooks.pojo.ApiResponse;
 import com.hakimbooks.hakimbooks.pojo.UserResponse;
+import com.hakimbooks.hakimbooks.pojo.UserStatus;
 import com.hakimbooks.hakimbooks.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,12 @@ public class UserController {
     ) {
         List<UserResponse> userList = userService.getUserList(page, userNum);
         return ResponseEntity.ok(userList);
+    }
+
+    @GetMapping("/status/{userId}")
+    public ResponseEntity<UserStatus> getStatus(@PathVariable long userId) {
+        UserStatus status = userService.userStatus(userId);
+        return ResponseEntity.ok(status);
     }
 
     @DeleteMapping("/{userId}")

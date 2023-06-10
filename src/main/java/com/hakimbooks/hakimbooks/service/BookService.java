@@ -9,10 +9,7 @@ import com.hakimbooks.hakimbooks.pojo.BookRequestData;
 import com.hakimbooks.hakimbooks.pojo.BookResponse;
 import com.hakimbooks.hakimbooks.pojo.ReadBookResponse;
 import com.hakimbooks.hakimbooks.pojo.UserResponse;
-import com.hakimbooks.hakimbooks.repository.BookNameRepository;
-import com.hakimbooks.hakimbooks.repository.BookRepository;
-import com.hakimbooks.hakimbooks.repository.CategoryRepository;
-import com.hakimbooks.hakimbooks.repository.UserRepository;
+import com.hakimbooks.hakimbooks.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -24,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookService {
     private final BookRepository bookRepository;
+    private final ReadBookRepository readBookRepository;
     private final UserRepository userRepository;
     private final BookNameRepository bookNameRepository;
     private final ModelMapper modelMapper;
@@ -102,6 +100,7 @@ public class BookService {
 
         return new BookResponse(
                 book.getId(),
+                book.getTotalPages(),
                 book.getNameInfo(),
                 book.getPhoto(),
                 readBookResponsesList,
