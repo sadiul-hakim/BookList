@@ -14,9 +14,10 @@ import java.util.List;
 @AllArgsConstructor
 public class Book {
     @Id
-    @GeneratedValue
+    @SequenceGenerator(name = "generator", sequenceName = "book_seq",allocationSize = 1)
+    @GeneratedValue(generator = "generator")
     private long id;
-    @OneToOne
+    @ManyToOne
     private BookName nameInfo;
     @Column(length = 100)
     private String photo="";

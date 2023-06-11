@@ -1,8 +1,6 @@
 package com.hakimbooks.hakimbooks.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,8 +11,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BookName {
     @Id
-    @GeneratedValue
+    @SequenceGenerator(name = "generator", sequenceName = "book_seq",allocationSize = 1)
+    @GeneratedValue(generator = "generator")
     private long id;
     private String bookName;
     private String writerName;
+
+    public BookName(String bookName, String writerName) {
+        this.bookName = bookName;
+        this.writerName = writerName;
+    }
 }

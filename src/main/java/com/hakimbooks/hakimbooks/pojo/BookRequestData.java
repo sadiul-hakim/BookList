@@ -10,7 +10,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class BookRequestData {
-    private long bookNameId;
+    private String bookName;
+    private String writerName;
     private int totalPages;
     private long userId;
     private long categoryId;

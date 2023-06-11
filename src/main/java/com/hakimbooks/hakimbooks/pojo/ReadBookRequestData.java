@@ -10,5 +10,7 @@ import lombok.NoArgsConstructor;
 public class ReadBookRequestData {
     private long userId;
     private long bookId;
-    private int readPages;
+    private int startPage;
+    private int endPage;
+    private boolean revise;
 }

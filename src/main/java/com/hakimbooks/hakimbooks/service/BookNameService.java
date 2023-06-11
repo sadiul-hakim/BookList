@@ -21,14 +21,12 @@ public class BookNameService {
                 .orElseThrow(()-> new ResourceNotFoundException("BookName not found with id : "+nameId));
     }
 
-    public BookName getByName(String name){
-        return bookNameRepository.findByBookName(name)
-                .orElseThrow(()-> new ResourceNotFoundException("BookName not found with book name : "+name));
+    public List<BookName> getAllByWriterName(String writerName){
+        return bookNameRepository.findAllByWriterName(writerName);
     }
 
-    public List<BookName> getAllByWriterName(String writerName){
-        return bookNameRepository.findAllByWriterName(writerName)
-                .orElseThrow(()-> new ResourceNotFoundException("BookNames not found with writer name : "+writerName));
+    public List<BookName> getAll(){
+        return bookNameRepository.findAll();
     }
 
     public void deleteBookName(long nameId){

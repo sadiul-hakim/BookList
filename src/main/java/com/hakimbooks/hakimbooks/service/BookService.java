@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,8 +35,15 @@ public class BookService {
                 .orElseThrow(()->new ResourceNotFoundException("User not found with id : "+bookRequestData.getUserId()));
         Category category= categoryRepository.findById(bookRequestData.getCategoryId())
                 .orElseThrow(()->new ResourceNotFoundException("Category not found with id : "+bookRequestData.getCategoryId()));
-        BookName bookName=bookNameRepository.findById(bookRequestData.getBookNameId())
-                .orElseThrow(()-> new ResourceNotFoundException("BookName not found with id : "+bookRequestData.getBookNameId()));
+
+        BookName bookName = bookNameRepository.findByBookNameAndWriter(bookRequestData.getBookName(), bookRequestData.getWriterName())
+                .orElse(null);
+
+        if(bookName == null || !bookName.getWriterName().equals(bookRequestData.getWriterName())){
+            bookName = bookNameRepository.save(
+                    new BookName(bookRequestData.getBookName(), bookRequestData.getWriterName())
+            );
+        }
 
         book.setUser(user);
         book.setNameInfo(bookName);

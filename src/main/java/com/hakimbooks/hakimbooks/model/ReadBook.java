@@ -22,6 +22,8 @@ public class ReadBook {
     private User user;
     @ManyToOne
     private Book book;
-    private int readPages;
+    private int startPage;
+    private int endPage;
+    private boolean revise=false;
     private Timestamp readDate=new Timestamp(System.currentTimeMillis());
 }

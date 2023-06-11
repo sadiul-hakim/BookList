@@ -30,79 +30,53 @@ public class ReadBookService {
                 .orElseThrow(()->new ResourceNotFoundException("User not found with id : "+requestData.getUserId()));
 
         ReadBook readBook=new ReadBook();
-        readBook.setReadPages(requestData.getReadPages());
+        readBook.setStartPage(requestData.getStartPage());
+        readBook.setEndPage(requestData.getEndPage());
+        readBook.setRevise(requestData.isRevise());
         readBook.setUser(user);
         readBook.setBook(book);
 
         ReadBook savedReadBook = readBookRepository.save(readBook);
 
-        UserResponse userResponse=modelMapper.map(user, UserResponse.class);
-
-        return new ReadBookResponse(
-                savedReadBook.getId(),
-                userResponse,
-                book.getId(),
-                book.getNameInfo(),
-                savedReadBook.getReadPages(),
-                savedReadBook.getReadDate()
-        );
+        return getResponse(savedReadBook);
     }
 
     public ReadBookResponse getReadBook(long id){
         ReadBook readBook = readBookRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("ReadBook not found with id : " + id));
 
-        UserResponse userResponse=modelMapper.map(readBook.getUser(), UserResponse.class);
-
-        return new ReadBookResponse(
-                readBook.getId(),
-                userResponse,
-                readBook.getBook().getId(),
-                readBook.getBook().getNameInfo(),
-                readBook.getReadPages(),
-                readBook.getReadDate()
-        );
+        return getResponse(readBook);
     }
 
     public List<ReadBookResponse> getReadBookOfBook(long bookId){
-        Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new ResourceNotFoundException("Book not found with id : " + bookId));
+        List<ReadBook> readBook = readBookRepository.findAllByBookId(bookId);
 
-        UserResponse userResponse=modelMapper.map(book.getUser(), UserResponse.class);
-
-        return book.getReadBooks().stream().map(readBook -> new ReadBookResponse(
-                readBook.getId(),
-                userResponse,
-                book.getId(),
-                book.getNameInfo(),
-                readBook.getReadPages(),
-                readBook.getReadDate()
-        )).toList();
+        return readBook.stream().map(this::getResponse).toList();
     }
 
     public List<ReadBookResponse> getReadBookOfUser(long userId){
-        List<ReadBook> readBookList = readBookRepository.findAllByUserId(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("ReadBook not found with user_id : " + userId));
+        List<ReadBook> readBookList = readBookRepository.findAllByUserId(userId);
 
-        User user=userRepository.findById(userId)
-                .orElseThrow(()->new ResourceNotFoundException("User not found with id : "+userId));
-
-        UserResponse userResponse=modelMapper.map(user, UserResponse.class);
-
-
-        return readBookList.stream().map(readBook ->  new ReadBookResponse(
-                readBook.getId(),
-                userResponse,
-                readBook.getBook().getId(),
-                readBook.getBook().getNameInfo(),
-                readBook.getReadPages(),
-                readBook.getReadDate()
-        )).toList();
+        return readBookList.stream().map(this::getResponse).toList();
     }
 
     public void deleteReadBook(long id){
         ReadBook readBook = readBookRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("ReadBook not found with id : " + id));
         readBookRepository.delete(readBook);
+    }
+
+    public ReadBookResponse getResponse(ReadBook readBook){
+        UserResponse userResponse=modelMapper.map(readBook.getUser(), UserResponse.class);
+        return new ReadBookResponse(
+                readBook.getId(),
+                userResponse,
+                readBook.getBook().getId(),
+                readBook.getBook().getNameInfo(),
+                readBook.getStartPage(),
+                readBook.getEndPage(),
+                readBook.isRevise(),
+                readBook.getReadDate()
+        );
     }
 }

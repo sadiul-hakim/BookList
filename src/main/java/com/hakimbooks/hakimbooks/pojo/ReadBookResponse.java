@@ -17,6 +17,8 @@ public class ReadBookResponse {
     private UserResponse user;
     private long bookId;
     private BookName bookName;
-    private int readPages;
+    private int startPage;
+    private int endPage;
+    private boolean revise=false;
     private Timestamp readDate;
 }

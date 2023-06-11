@@ -28,15 +28,15 @@ public class BookNameController {
         return ResponseEntity.ok(name);
     }
 
-    @GetMapping("/book")
-    public ResponseEntity<BookName> getByName(@RequestParam String bookName){
-        BookName name = bookNameService.getByName(bookName);
-        return ResponseEntity.ok(name);
-    }
-
     @GetMapping("/writer")
     public ResponseEntity<List<BookName>> getALlByWriterName(@RequestParam String writerName){
         List<BookName> nameList = bookNameService.getAllByWriterName(writerName);
+        return ResponseEntity.ok(nameList);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<BookName>> getALl(){
+        List<BookName> nameList = bookNameService.getAll();
         return ResponseEntity.ok(nameList);
     }
 

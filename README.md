@@ -5,5 +5,4 @@
 ### Task List
 
 ---
-1. Design GUI
-2. Upload Image
+1. Add new Field quantity to book Model
