@@ -76,10 +76,16 @@ public class SecurityConfig {
                 "/api/category/post"
         };
 
+        String[] permitAllWhiteList={
+                "/api/auth/login",
+                "/api/auth/register",
+                "/api/auth/validate"
+        };
+
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/api/auth/**")
+                        auth.requestMatchers(HttpMethod.POST,permitAllWhiteList)
                                 .permitAll()
                                 .requestMatchers(HttpMethod.GET,publicGetRequestWhiteLis)
                                 .hasAnyRole(Role.USER.name())

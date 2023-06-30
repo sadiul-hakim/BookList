@@ -6,6 +6,7 @@ import com.hakimbooks.hakimbooks.pojo.*;
 import com.hakimbooks.hakimbooks.repository.UserRepository;
 import com.hakimbooks.hakimbooks.security.Role;
 import com.hakimbooks.hakimbooks.utility.JwtHelper;
+import com.hakimbooks.hakimbooks.utility.Message;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +28,16 @@ public class UserService {
     private final JwtHelper jwtHelper;
 
     public UserResponse register(UserRequestData userRequest) {
+
+        User user = userRepository.findByEmail(userRequest.getEmail())
+                .orElse(null);
+        if(user != null){
+            Message.clear();
+            Message.addMessage("User with email "+userRequest.getEmail()+" already exists!");
+            return null;
+        }
+
+
         User userModel = modelMapper.map(userRequest, User.class);
         userModel.setRole(Role.USER.getRole());
         userModel.setStartedAt(ZonedDateTime.now().toString());
