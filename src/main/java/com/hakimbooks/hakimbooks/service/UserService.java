@@ -63,8 +63,8 @@ public class UserService {
     }
 
     public List<UserResponse> getUserList(int page, int userNum) {
-        PageRequest pageRequest = PageRequest.of(page, userNum, Sort.by("fullName"));
-        List<User> pageList = userRepository.findAll(pageRequest).getContent();
+//        PageRequest pageRequest = PageRequest.of(page, userNum, Sort.by("fullName"));
+        List<User> pageList =(List<User>) userRepository.findAll();
         return pageList.stream().map(user -> modelMapper.map(user, UserResponse.class)).toList();
     }
 
